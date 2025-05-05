@@ -19,10 +19,10 @@ const AmortizationTable = ({ data }) => {
           {data.map((row) => (
             <TableRow key={row.month}>
               <TableCell>{row.month}</TableCell>
-              <TableCell align="right">{row.emi}</TableCell>
-              <TableCell align="right">{row.principal}</TableCell>
-              <TableCell align="right">{row.interest}</TableCell>
-              <TableCell align="right">{row.balance}</TableCell>
+              <TableCell align="right">{row.emi.toFixed(2)}</TableCell>
+              <TableCell align="right">{row.principal.toFixed(2)}</TableCell>
+              <TableCell align="right">{row.interest.toFixed(2)}</TableCell>
+              <TableCell align="right">{row.balance.toFixed(2)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
