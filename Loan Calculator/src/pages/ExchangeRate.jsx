@@ -33,17 +33,29 @@ const ExchangeRates = () => {
             </Table>
           </TableContainer>
 
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+          <Box sx={{ 
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 2,
+            mt: 3
+          }}>
             <Button 
+              variant="outlined"
               disabled={currentPage === 1}
               onClick={() => setCurrentPage(p => p - 1)}
+              sx={{ minWidth: 100 }}
             >
               Previous
             </Button>
-            <Typography sx={{ mx: 2 }}>Page {currentPage} of {totalPages}</Typography>
+            <Typography variant="body1">
+              Page {currentPage} of {totalPages}
+            </Typography>
             <Button
+              variant="outlined"
               disabled={currentPage === totalPages}
               onClick={() => setCurrentPage(p => p + 1)}
+              sx={{ minWidth: 100 }}
             >
               Next
             </Button>

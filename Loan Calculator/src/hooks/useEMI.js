@@ -1,35 +1,38 @@
-import { useState } from 'react';
+import { useContext,useState } from 'react';
+import { useCurrency } from '../context/CurrencyContext';
+import useExchangeRates from './useExchangeRates';
 
 const useEMI = () => {
-  const [amortizationSchedule, setAmortizationSchedule] = useState([]);
+  const { currency } = useCurrency();
+  const { convertCurrency } = useExchangeRates();
+  const [schedule, setSchedule] = useState([]);
 
   const calculateEMI = (principal, annualRate, tenureMonths) => {
     const monthlyRate = annualRate / 1200;
-    const emi = 
-      (principal * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths)) /
-      (Math.pow(1 + monthlyRate, tenureMonths) - 1);
+    const emi = principal * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths) / 
+                (Math.pow(1 + monthlyRate, tenureMonths) - 1);
 
-    const schedule = [];
+    const newSchedule = [];
     let balance = principal;
 
     for (let month = 1; month <= tenureMonths; month++) {
       const interest = balance * monthlyRate;
-      const principalComponent = emi - interest;
-      balance -= principalComponent;
+      const principalComp = emi - interest;
+      balance -= principalComp;
 
-      schedule.push({
+      newSchedule.push({
         month,
-        emi: emi.toFixed(2),
-        principal: principalComponent.toFixed(2),
-        interest: interest.toFixed(2),
-        balance: Math.abs(balance.toFixed(2)),
+        emi: convertCurrency(emi, currency) || emi.toFixed(2),
+        principal: convertCurrency(principalComp, currency) || principalComp.toFixed(2),
+        interest: convertCurrency(interest, currency) || interest.toFixed(2),
+        balance: convertCurrency(Math.abs(balance), currency) || Math.abs(balance).toFixed(2)
       });
     }
 
-    setAmortizationSchedule(schedule);
+    setSchedule(newSchedule);
   };
 
-  return { calculateEMI, amortizationSchedule };
+  return { calculateEMI, amortizationSchedule: schedule };
 };
 
 export default useEMI;

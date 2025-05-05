@@ -5,12 +5,13 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { ThemeContext } from '../context/ThemeContext';
 
 const ThemeToggle = () => {
-  const { darkMode, toggleTheme } = useContext(ThemeContext);
+  const { toggleTheme, mode } = useContext(ThemeContext);
+  console.log('Current mode:', mode); // Debug log
 
   return (
-    <Tooltip title="Toggle theme">
+    <Tooltip title={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}>
       <IconButton onClick={toggleTheme} color="inherit">
-        {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+        {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
       </IconButton>
     </Tooltip>
   );

@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import ErrorBoundary from './components/ErrroBoudary';
+import ErrorBoundary from './components/ErrorBoundary';
 import Header from './components/Header';
 import Home from './pages/Home';
 import ExchangeRates from './pages/ExchangeRate';

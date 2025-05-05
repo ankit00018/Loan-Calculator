@@ -1,20 +1,25 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useState, useContext } from 'react';
 
 const CurrencyContext = createContext();
 
 export const CurrencyProvider = ({ children }) => {
   const [currency, setCurrency] = useState('USD');
-  const [exchangeRates, setExchangeRates] = useState({});
-
+  
   const updateCurrency = (newCurrency) => {
-    setCurrency(newCurrency);
+    if (newCurrency) setCurrency(newCurrency);
   };
 
   return (
-    <CurrencyContext.Provider value={{ currency, updateCurrency, exchangeRates }}>
+    <CurrencyContext.Provider value={{ currency, updateCurrency }}>
       {children}
     </CurrencyContext.Provider>
   );
 };
 
-export const useCurrency = () => useContext(CurrencyContext);
+export const useCurrency = () => {
+  const context = useContext(CurrencyContext);
+  if (!context) {
+    throw new Error('useCurrency must be used within a CurrencyProvider');
+  }
+  return context;
+};
