@@ -1,12 +1,22 @@
-import React, { useContext, useState } from 'react';
-import { ThemeContext } from '../contexts/ThemeContext';
-import { Button, TextField, Grid, Paper, Typography, Switch, FormControlLabel } from '@mui/material';
-import AmortizationTable from '../components/AmortizationTable';
-import useEMI from '../hooks/useEMI';
-import CurrencyConverter from '../components/CurrencyConverter';
+import React, { useContext, useState } from "react";
+import { ThemeContext } from "../context/ThemeContext";
+import {
+  Button,
+  TextField,
+  Grid,
+  Paper,
+  Typography,
+  Switch,
+  FormControlLabel,
+} from "@mui/material";
+import AmortizationTable from "../components/AmortizationTable";
+import useEMI from "../hooks/useEMI";
+import CurrencyConverter from "../components/CurrencyConverter";
+import { useCurrency } from "../context/CurrencyContext";
 
 const Home = () => {
   const { theme } = useContext(ThemeContext);
+  const { currency } = useCurrency();
   const [principal, setPrincipal] = useState(100000);
   const [rate, setRate] = useState(8.5);
   const [tenure, setTenure] = useState(12);
@@ -17,8 +27,13 @@ const Home = () => {
   };
 
   return (
-    <div style={{ padding: '2rem', backgroundColor: theme.palette.background.default }}>
-      <Paper elevation={3} style={{ padding: '2rem', marginBottom: '2rem' }}>
+    <div
+      style={{
+        padding: "2rem",
+        backgroundColor: theme.palette.background.default,
+      }}
+    >
+      <Paper elevation={3} style={{ padding: "2rem", marginBottom: "2rem" }}>
         <Typography variant="h4" gutterBottom>
           EMI Calculator
         </Typography>
@@ -56,19 +71,22 @@ const Home = () => {
           </Grid>
         </Grid>
 
-        <Button 
-          variant="contained" 
-          color="primary" 
+        <Button
+          variant="contained"
+          color="primary"
           onClick={handleCalculate}
-          style={{ marginTop: '1rem' }}
+          style={{ marginTop: "1rem" }}
         >
           Calculate EMI
         </Button>
 
         {amortizationSchedule.length > 0 && (
           <>
-            <Typography variant="h6" style={{ margin: '2rem 0 1rem' }}>
-              Monthly EMI: {amortizationSchedule[0].emi.toFixed(2)}
+            <Typography variant="h6" style={{ margin: "2rem 0 1rem" }}>
+              Monthly EMI:{" "}
+              {typeof amortizationSchedule[0].emi === "number"
+                ? amortizationSchedule[0].emi.toFixed(2)
+                : "N/A"}
             </Typography>
             <CurrencyConverter amount={amortizationSchedule[0].emi} />
             <AmortizationTable data={amortizationSchedule} />

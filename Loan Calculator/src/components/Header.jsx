@@ -20,9 +20,9 @@ const Header = () => {
           </IconButton>
         ) : (
           <>
-            <NavLink to="/" className="nav-link">Home</NavLink>
-            <NavLink to="/rates" className="nav-link">Exchange Rates</NavLink>
-            <NavLink to="/about" className="nav-link">About</NavLink>
+            <NavLink to="/" className="nav-link text-white">Home</NavLink>
+            <NavLink to="/rates" className="nav-link text-white">Exchange Rates</NavLink>
+            <NavLink to="/about" className="nav-link text-white">About</NavLink>
             <ThemeToggle />
           </>
         )}

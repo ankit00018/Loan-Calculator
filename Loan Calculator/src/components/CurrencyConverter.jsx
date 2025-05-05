@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Typography, Select, MenuItem, Grid } from '@mui/material';
-import { useCurrency } from '../contexts/CurrencyContext';
+import { useCurrency } from '../context/CurrencyContext';
 import useExchangeRates from '../hooks/useExchangeRates';
 
 const CurrencyConverter = ({ amount }) => {
