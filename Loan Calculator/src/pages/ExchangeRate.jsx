@@ -1,16 +1,38 @@
-import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Button, Box } from '@mui/material';
-import useExchangeRates from '../hooks/useExchangeRates';
-import Loading from '../components/Loading';
+import React from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+  Button,
+  Box,
+} from "@mui/material";
+import useExchangeRates from "../hooks/useExchangeRates";
+import Loading from "../components/Loading";
 
 const ExchangeRates = () => {
-  const { rates, loading, error, currentPage, totalPages, setCurrentPage } = useExchangeRates();
+  const { rates, loading, error, currentPage, totalPages, setCurrentPage } =
+    useExchangeRates();
+  const itemsPerPage = 10;
+  const rateEntries = Object.entries(rates);
+  const paginatedRates = rateEntries.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <Paper sx={{ p: 3, m: 2 }}>
-      <Typography variant="h4" gutterBottom>Exchange Rates</Typography>
-      
-      {loading ? <Loading /> : error ? (
+      <Typography variant="h4" gutterBottom>
+        Exchange Rates
+      </Typography>
+
+      {loading ? (
+        <Loading />
+      ) : error ? (
         <Typography color="error">{error}</Typography>
       ) : (
         <>
@@ -23,27 +45,29 @@ const ExchangeRates = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rates.map((rate) => (
-                  <TableRow key={rate.currency}>
-                    <TableCell>{rate.currency}</TableCell>
-                    <TableCell align="right">{rate.rate.toFixed(4)}</TableCell>
+                {paginatedRates.map(([currency, rate]) => (
+                  <TableRow key={currency}>
+                    <TableCell>{currency}</TableCell>
+                    <TableCell align="right">{rate.toFixed(4)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
 
-          <Box sx={{ 
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: 2,
-            mt: 3
-          }}>
-            <Button 
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 2,
+              mt: 3,
+            }}
+          >
+            <Button
               variant="outlined"
               disabled={currentPage === 1}
-              onClick={() => setCurrentPage(p => p - 1)}
+              onClick={() => setCurrentPage((p) => p - 1)}
               sx={{ minWidth: 100 }}
             >
               Previous
@@ -54,7 +78,7 @@ const ExchangeRates = () => {
             <Button
               variant="outlined"
               disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage(p => p + 1)}
+              onClick={() => setCurrentPage((p) => p + 1)}
               sx={{ minWidth: 100 }}
             >
               Next

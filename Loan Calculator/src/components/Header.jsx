@@ -115,6 +115,8 @@ const Header = () => {
             <StyledNavLink to="/">Home</StyledNavLink>
             <StyledNavLink to="/rates">Exchange Rates</StyledNavLink>
             <StyledNavLink to="/about">About</StyledNavLink>
+            <StyledNavLink to="/error">Error Page</StyledNavLink>
+
             <ThemeToggle sx={{ ml: 2 }} />
           </Box>
         )}

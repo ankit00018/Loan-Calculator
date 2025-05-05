@@ -5,6 +5,8 @@ const useExchangeRates = () => {
   const [rates, setRates] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const loadRates = async () => {
@@ -17,7 +19,7 @@ const useExchangeRates = () => {
         setLoading(false);
       }
     };
-    
+
     loadRates();
   }, []);
 
@@ -26,12 +28,18 @@ const useExchangeRates = () => {
     return amount * rates[targetCurrency];
   };
 
+  const totalPages = Math.ceil(Object.keys(rates).length / itemsPerPage);
+
   return {
     rates,
     loading,
     error,
     allCurrencies: Object.keys(rates),
-    convertCurrency
+    convertCurrency,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    itemsPerPage
   };
 };
 

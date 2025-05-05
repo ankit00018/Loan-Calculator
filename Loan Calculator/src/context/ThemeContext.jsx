@@ -1,5 +1,5 @@
 import { createContext, useState, useMemo } from 'react';
-import { createTheme } from '@mui/material/styles';
+import { createTheme, ThemeProvider as MuiThemeProvider } from '@mui/material/styles'; // <- Add MuiThemeProvider
 
 export const ThemeContext = createContext();
 
@@ -10,7 +10,6 @@ export const ThemeProvider = ({ children }) => {
     palette: {
       mode,
       ...(mode === 'light' ? {
-        // Light theme
         primary: { main: '#1976d2' },
         secondary: { main: '#9c27b0' },
         background: {
@@ -22,7 +21,6 @@ export const ThemeProvider = ({ children }) => {
           secondary: 'rgba(0, 0, 0, 0.6)',
         },
       } : {
-        // Dark theme
         primary: { main: '#90caf9' },
         secondary: { main: '#ce93d8' },
         background: {
@@ -59,7 +57,9 @@ export const ThemeProvider = ({ children }) => {
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme, mode }}>
-      {children}
+      <MuiThemeProvider theme={theme}> {/* << Wrap children here */}
+        {children}
+      </MuiThemeProvider>
     </ThemeContext.Provider>
   );
 };
